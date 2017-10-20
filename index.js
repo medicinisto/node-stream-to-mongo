@@ -24,7 +24,7 @@ StreamToMongo.prototype._write = function (obj, encoding, done) {
   };
 
   if (!this.db) {
-    MongoClient.connect(this.options.db, function (err, db) {
+    MongoClient.connect(this.options.db, this.options.server, function (err, db) {
       if (err) throw err;
       self.db = db;
       self.on('finish', function () {
