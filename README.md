@@ -21,6 +21,29 @@ request('http://isaacs.couchone.com/registry/_all_docs')
   .pipe(parser)
   .pipe(streamToMongo);
 ```
+
+or with SSL
+
+```javascript
+var request = require('request')
+var parser = require('JSONStream').parse('rows.*.doc')
+var options = { 
+  db: 'mongodb://localhost:27017/test-stream?ssl=true', 
+  collection: 'docs',
+  server: {
+    "sslValidate": false,
+    "sslCA": "-----BEGIN CERTIFICATE-----\n ... \n-----END CERTIFICATE-----",
+    "poolSize": 1,
+    "reconnectTries": 1
+  }
+}
+var streamToMongo = require('stream-to-mongo')(options);
+
+request('http://isaacs.couchone.com/registry/_all_docs')
+  .pipe(parser)
+  .pipe(streamToMongo);
+```
+
 ## Test
 Needs a MongoDB instance running.
 `make test`
