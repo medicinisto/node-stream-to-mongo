@@ -20,7 +20,8 @@ StreamToMongo.prototype._write = function (obj, encoding, done) {
 
   // Custom action definition
   var action = this.options.action || function insert (obj, cb) {
-    this.collection.insert(obj, {w: 1}, cb);
+      console.log('XXXXXXXX');
+      this.collection.insert(obj, cb);
   };
 
   if (!this.db) {
