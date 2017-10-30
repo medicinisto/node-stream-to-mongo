@@ -7,26 +7,32 @@ util.inherits(StreamToMongo, Writable);
 module.exports = StreamToMongo;
 
 function StreamToMongo(options) {
+  console.log('XXXXXXXX const');
+  console.log(options);
   if(!(this instanceof StreamToMongo)) {
     return new StreamToMongo(options);
   }
   Writable.call(this, { objectMode: true });
   this.options = options;
+
+  console.log('XXXXXXXX const done');
 }
 
 
 StreamToMongo.prototype._write = function (obj, encoding, done) {
+  console.log('XXXXXXXX _write');
   var self = this;
 
   // Custom action definition
   var action = this.options.action || function insert (obj, cb) {
       console.log('XXXXXXXX');
       this.collection.insert(obj, cb);
-  };
+    };
 
   if (!this.db) {
     MongoClient.connect(this.options.db, this.options.server, function (err, db) {
       if (err) throw err;
+      console.log('XXXXXXXX connected');
       self.db = db;
       self.on('finish', function () {
         self.db.close();
