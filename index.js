@@ -30,9 +30,10 @@ StreamToMongo.prototype._write = function (obj, encoding, done) {
     };
 
   if (!this.db) {
-    console.log('XXXXXXXX pro con');
+    console.log('XXXXXXXX pre con');
     console.log(this.options);
-    MongoClient.connect(this.options.db, this.options.server, function (err, db) {
+    MongoClient.connect(this.options.db, function (err, db) {
+      console.log(err);
       if (err) throw err;
       console.log('XXXXXXXX connected');
       self.db = db;
